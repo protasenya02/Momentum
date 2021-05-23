@@ -11,11 +11,13 @@ const body = document.querySelector('body'),
 
 const  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
     daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-    images = ['01.jpg', '02.jpg', '03.jpg', '05.jpg', '06.jpg', '07.jpg', '08.jpg', '09.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg'];
+    images = ['01.jpg', '02.jpg', '03.jpg', '05.jpg', '06.jpg', '07.jpg', '08.jpg', '09.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg'],
+    timeOfDay = ['night', 'morning', 'day', 'evening'];
 
 let textBuffer;
 let base;
 let imageCounter = 0;
+let currTimeOfDay;
 
 // Show Current Time
 function showTime() {
@@ -49,13 +51,22 @@ function showBackgroundImage(src) {
 }
 
 // Get Background Image
-function getBackgroundImage(base) {
+function getBackgroundImage() {
     const index = imageCounter % images.length;
-    const imageSrc = base + images[index];
+    const imageSrc = "../images/" + timeOfDay[currTimeOfDay] + "/" + images[index];
+
     showBackgroundImage(imageSrc);
     imageCounter++;
     nextBtn.disabled = true;
     setTimeout(function() { nextBtn.disabled = false }, 1000);
+
+    if (index === 0){
+        currTimeOfDay++;
+    }
+
+    if(currTimeOfDay === 4) {
+        currTimeOfDay = 0;
+    }
 }
 
 // Set Background image ang Greeting
@@ -65,26 +76,28 @@ function setBackgroundAndGreeting() {
 
     if (hour < 6) {
         // Night
-        base = '../images/night/';
+        currTimeOfDay = 0;
         greeting.textContent = 'Good Night,';
         body.style.color = 'white';
     }else if (hour < 12) {
         // Morning
-        base = '../images/morning/';
+        currTimeOfDay = 1;
         greeting.textContent = 'Good Morning,';
+        body.style.color = 'black';
     } else if (hour < 18) {
         // Afternoon
-        base = '../images/day/';
+        currTimeOfDay = 2;
         greeting.textContent = 'Good Afternoon,';
+        body.style.color = 'white';
     } else {
         // Evening
-        base = '../images/evening/';
+        currTimeOfDay = 3;
         greeting.textContent = 'Good Evening,';
     }
 
     // Changing Background Every Hour
     setTimeout(showTime, 1000 * 60 & 60);
-    getBackgroundImage(base);
+    getBackgroundImage();
 }
 
 // Set Name
@@ -145,7 +158,7 @@ async function getQuote() {
     const url = `https://api.chucknorris.io/jokes/random`;
     const res = await fetch(url);
     const data = await res.json();
-    quote.textContent = data.value;
+    quote.textContent = '"' + data.value + '"';
 }
 
 

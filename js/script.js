@@ -53,7 +53,7 @@ function showBackgroundImage(src) {
 // Get Background Image
 function getBackgroundImage() {
     const index = imageCounter % images.length;
-    const imageSrc = "../images/" + timeOfDay[currTimeOfDay] + "/" + images[index];
+    const imageSrc = "images/" + timeOfDay[currTimeOfDay] + "/" + images[index];
 
     showBackgroundImage(imageSrc);
     imageCounter++;

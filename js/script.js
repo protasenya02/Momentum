@@ -104,14 +104,13 @@ function setBackgroundAndGreeting() {
 function setName(event) {
     if (event.type === 'keypress'){
         // If Enter Pressed
-        if (event.which === 13 || event.keyCode === 13) {
-            localStorage.setItem('name', event.target.innerText);
+        if (event.keyCode === 13) {
             name.blur();
         }
     } else {
         // Check Input
-        if ((name.innerHTML === '') || (/^\s*$/.test(name.innerText))) {
-            name.innerHTML = textBuffer;
+        if ((name.textContent === '') || (/^\s*$/.test(name.innerText))) {
+            name.textContent = textBuffer;
         }
 
         localStorage.setItem('name', event.target.innerText);
@@ -120,7 +119,7 @@ function setName(event) {
 
 // Get Name
 function getName() {
-    if (localStorage.getItem('name') === null) {
+    if (!localStorage.getItem('name')) {
         name.textContent = '[Enter Name]';
     } else {
         name.textContent = localStorage.getItem('name');
@@ -131,13 +130,12 @@ function getName() {
 function setFocus(event) {
     if (event.type === 'keypress'){
         // If Enter Pressed
-        if (event.which === 13 || event.keyCode === 13) {
-            localStorage.setItem('focus', event.target.innerText);
+        if (event.keyCode === 13) {
             focus.blur();
         }
     } else {
-        if ((focus.innerHTML === '') || (/^\s*$/.test(focus.innerText))) {
-            focus.innerHTML = textBuffer;
+        if ((focus.textContent === '') || (/^\s*$/.test(focus.innerText))) {
+            focus.textContent = textBuffer;
         }
 
         localStorage.setItem('focus', event.target.innerText);
@@ -163,15 +161,15 @@ async function getQuote() {
 
 
 name.addEventListener('click', () => {
-    textBuffer = name.innerHTML;
-    name.innerHTML = '';
+    textBuffer = name.textContent;
+    name.textContent = '';
 })
 name.addEventListener('keypress', setName);
 name.addEventListener('blur', setName);
 
 focus.addEventListener('click', () => {
-    textBuffer = focus.innerHTML;
-    focus.innerHTML = '';
+    textBuffer = focus.textContent;
+    focus.textContent = '';
 })
 focus.addEventListener('keypress', setFocus);
 focus.addEventListener('blur', setFocus);
